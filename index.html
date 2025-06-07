@@ -111,7 +111,6 @@
     </div>
 
     <script>
-        // Dán cấu hình Firebase từ Bước 1 vào đây
         const firebaseConfig = {
             apiKey: "AIzaSyBfZEEE8sVCT6goICS1jjMq_FEGEPkqNrE",
             authDomain: "graduation-wishes-nvd.firebaseapp.com",
@@ -121,11 +120,9 @@
             appId: "1:185244211071:web:dafe5557697d93e6926c4a"
         };
 
-        // Khởi tạo Firebase
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
-        // Hiệu ứng pháo giấy
         let particles = [];
         function setup() {
             let canvas = createCanvas(windowWidth, windowHeight);
