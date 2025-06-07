@@ -4,113 +4,74 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Happy Graduation Day!</title>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Sử dụng Tailwind CSS để trang trí -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Thư viện cho hiệu ứng pháo giấy -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
     <style>
+        /* Thêm font chữ đẹp từ Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;700&display=swap');
         body {
             font-family: 'Quicksand', sans-serif;
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-            background: linear-gradient(to bottom, #E6F0FA, #F5F9FF);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: auto;
-            position: relative;
         }
-        .container {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-            width: 90%;
-            max-width: 450px;
-            text-align: center;
-            position: relative;
-            z-index: 1;
+        /* Style cho nền gradient chuyển động nhẹ nhàng */
+        body {
+            background: linear-gradient(-45deg, #a8d0e6, #f7f7f7, #a2d2ff, #f2e7f1);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
         }
-        h1 {
-            color: #2C3E50;
-            font-size: 2.2em;
-            margin: 0 0 10px;
-            font-weight: 700;
-        }
-        p {
-            color: #34495E;
-            font-size: 1em;
-            margin: 0 0 20px;
-            font-weight: 400;
-        }
-        p span {
-            color: #E74C3C;
-        }
-        label {
-            display: block;
-            text-align: left;
-            color: #2C3E50;
-            font-size: 0.9em;
-            margin-bottom: 2px;
-            font-weight: 700;
-        }
-        input, textarea {
-            width: 100%;
-            padding: 10px;
-            margin: 5px 0 15px;
-            border: 1px solid #D5DDE5;
-            border-radius: 8px;
-            box-sizing: border-box;
-            font-size: 1em;
-            background: #F9FBFD;
-            font-family: 'Quicksand', sans-serif;
-            resize: none;
-        }
-        button {
-            width: 100%;
-            padding: 12px;
-            background-color: #3498DB;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 1em;
-            cursor: pointer;
-            transition: transform 0.3s, background-color 0.3s;
-            font-family: 'Quicksand', sans-serif;
-            font-weight: 700;
-        }
-        button:hover {
-            transform: scale(1.05);
-            background-color: #2980B9;
-        }
-        #message {
-            margin-top: 20px;
-            color: #27AE60;
-            font-weight: 700;
-        }
-        canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 1000;
-            pointer-events: none;
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
     </style>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.2/p5.min.js"></script>
 </head>
-<body>
-    <div class="container">
-        <h1>Happy Graduation Day!</h1>
-        <p>Em xin một lời chúc nếu chưa có duyên gặp gỡ nha <span>❤️</span></p>
-        <label for="senderName">Tên của bạn</label>
-        <input type="text" id="senderName" placeholder="" required>
-        <label for="greetingMessage">Lời chúc của bạn</label>
-        <textarea id="greetingMessage" rows="5" placeholder="" required></textarea>
-        <button onclick="submitGreeting()">Gửi lời chúc</button>
-        <p id="message"></p>
+<body class="flex items-center justify-center min-h-screen p-4">
+
+    <div class="w-full max-w-lg mx-auto bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-8 transition-all duration-300">
+        
+        <div class="text-center">
+            <h1 class="text-4xl font-bold text-gray-800">Happy Graduation Day!</h1>
+            <p class="text-gray-600 mt-3 text-lg">
+                Em xin một lời chúc nếu mọi người không đến được nhé ❤️
+            </p>
+        </div>
+
+        <div class="mt-8">
+            <form id="wish-form">
+                <div class="mb-4">
+                    <label for="senderName" class="block text-gray-700 text-sm font-bold mb-2">Tên của bạn</label>
+                    <input type="text" id="senderName" name="senderName" class="shadow-sm appearance-none border border-gray-300/50 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-400 transition-shadow" required>
+                </div>
+
+                <div class="mb-6">
+                    <label for="wishMessage" class="block text-gray-700 text-sm font-bold mb-2">Lời chúc của bạn</label>
+                    <textarea id="wishMessage" name="wishMessage" rows="5" class="shadow-sm appearance-none border border-gray-300/50 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-400 transition-shadow" required></textarea>
+                </div>
+
+                <div class="flex items-center justify-center">
+                    <button id="submit-button" type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                        Gửi lời chúc
+                    </button>
+                </div>
+            </form>
+            <!-- Vùng hiển thị thông báo trạng thái -->
+            <div id="status-message" class="text-center mt-4 font-medium text-lg"></div>
+        </div>
+
     </div>
 
-    <script>
+    <!-- Script của Firebase -->
+    <script type="module">
+        // Bước 1: Import các hàm cần thiết từ Firebase SDK
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+
+        // ======================================================================
+        // BƯỚC 2: DÁN CẤU HÌNH FIREBASE CỦA BẠN VÀO ĐÂY
+        // ======================================================================
         const firebaseConfig = {
             apiKey: "AIzaSyBfZEEE8sVCT6goICS1jjMq_FEGEPkqNrE",
             authDomain: "graduation-wishes-nvd.firebaseapp.com",
@@ -120,93 +81,54 @@
             appId: "1:185244211071:web:dafe5557697d93e6926c4a"
         };
 
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
+        // Bước 3: Khởi tạo Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
 
-        let particles = [];
-        function setup() {
-            let canvas = createCanvas(windowWidth, windowHeight);
-            canvas.position(0, 0);
-            canvas.style('z-index', '1000');
-        }
+        // Bước 4: Xử lý sự kiện khi người dùng gửi form
+        const form = document.getElementById('wish-form');
+        const statusMessage = document.getElementById('status-message');
+        const submitButton = document.getElementById('submit-button');
 
-        function draw() {
-            clear();
-            for (let i = particles.length - 1; i >= 0; i--) {
-                let p = particles[i];
-                p.update();
-                p.show();
-                if (p.isFinished()) {
-                    particles.splice(i, 1);
-                }
-            }
-        }
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault(); 
 
-        class Particle {
-            constructor(x, y) {
-                this.x = x;
-                this.y = y;
-                this.vx = random(-3, 3);
-                this.vy = random(-5, -1);
-                this.size = random(5, 10);
-                this.color = color(random(100, 255), random(100, 255), random(100, 255));
-                this.alpha = 255;
-            }
+            const senderName = form.senderName.value;
+            const wishMessage = form.wishMessage.value;
 
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
-                this.vy += 0.1;
-                this.alpha -= 2;
-            }
-
-            show() {
-                noStroke();
-                fill(this.color.levels[0], this.color.levels[1], this.color.levels[2], this.alpha);
-                ellipse(this.x, this.y, this.size);
-            }
-
-            isFinished() {
-                return this.alpha <= 0;
-            }
-        }
-
-        async function submitGreeting() {
-            const senderName = document.getElementById('senderName').value;
-            const greetingMessage = document.getElementById('greetingMessage').value;
-            const messageDiv = document.getElementById('message');
-
-            if (!senderName || !greetingMessage) {
-                messageDiv.style.color = '#E74C3C';
-                messageDiv.textContent = 'Vui lòng điền đầy đủ thông tin!';
-                return;
-            }
+            submitButton.disabled = true;
+            submitButton.textContent = 'Đang gửi...';
+            statusMessage.textContent = '';
+            statusMessage.className = 'text-center mt-4 font-medium text-lg';
 
             try {
-                await db.collection('greetings').add({
-                    sender: senderName,
-                    message: greetingMessage,
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                await addDoc(collection(db, "wishes"), {
+                    name: senderName,
+                    wish: wishMessage,
+                    createdAt: serverTimestamp()
                 });
-                messageDiv.style.color = '#27AE60';
-                messageDiv.textContent = 'Wishes saved';
                 
-                // Tạo pháo giấy
-                for (let i = 0; i < 100; i++) {
-                    particles.push(new Particle(windowWidth / 2, windowHeight / 2));
-                }
-                
-                document.getElementById('senderName').value = '';
-                document.getElementById('greetingMessage').value = '';
-                setTimeout(() => {
-                    messageDiv.textContent = '';
-                }, 3000);
+                // Gửi thành công!
+                statusMessage.textContent = 'Wishes saved!';
+                statusMessage.classList.add('text-green-600');
+                form.reset(); 
+
+                // Bắn pháo giấy!
+                confetti({
+                    particleCount: 200,
+                    spread: 100,
+                    origin: { y: 0.6 }
+                });
+
             } catch (error) {
-                messageDiv.style.color = '#E74C3C';
-                messageDiv.textContent = 'Đã có lỗi xảy ra, vui lòng thử lại!';
-                console.error('Error: ', error);
+                console.error("Error adding document: ", error);
+                statusMessage.textContent = 'Đã có lỗi xảy ra. Vui lòng thử lại sau.';
+                statusMessage.classList.add('text-red-600');
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = 'Gửi lời chúc';
             }
-        }
+        });
     </script>
 </body>
 </html>
